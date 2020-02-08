@@ -1,0 +1,9 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#bg-lightblue {
+	background-color: lightblue;
+	transition: background-color 1s;
+	-moz-transition: background-color 1s;
+}
