@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dragon city tram builder</title>
+    <script src="index.js"></script>
+    <script src="dom.js" defer></script>
+
+    <style>
+        body {
+            margin: 5%;
+            font-size: 25px;
+        }
+        
+        td,
+        th {
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="my_table">
+        <tr>
+            <th>Dragon elements</th>
+            <th>Strong against</th>
+            <th>Countered by against</th>
+        </tr>
+    </table>
+    <br />
+    <table>
+        <tr>
+            <td>
+                <h1>Total Crit <span id="total_crit">0 / 14</span></h1>
+                <div id="crit_image"></div>
+            </td>
+            <td>
+                <h1>Missing crit</h1>
+                <div id="missing_crit"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h1>Total weakness <span id="total_weakness">0 / 14</span></h1>
+                <div id="weakness_image"></div>
+            </td>
+        </tr>
+    </table>
+
+    <br />
+    <br />
+    <h1>Reference</h1>
+    <img src="https://deetlist.com/dragoncity/img/custom/battle-chart-2022.png" />
+</body>
+
+</html>
