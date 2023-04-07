@@ -73,7 +73,7 @@
 				fetch(apiUrl)
 					.then((response) => {
 						console.log(response);
-						if (response.ok) {
+						if (response.status >= 200 && response.status < 300) {
 							statusEl.innerHTML = `<i class="bi bi-check-circle-fill text-success"></i>
                                 `;
 						} else {
