@@ -1,76 +1,394 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Down for Maintenance</title>
-		<style>
-			/* Reset default styles */
-			* {
-				box-sizing: border-box;
-				margin: 0;
-				padding: 0;
-			}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadi Jiha | Software Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --border: #262626;
+            --text: #fafafa;
+            --text-muted: #a1a1aa;
+            --accent: #3b82f6;
+            --accent-hover: #60a5fa;
+        }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        #matrix { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.4; }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        
+        nav {
+            position: fixed; top: 0; width: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+        
+        nav .container { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+        .logo { font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text); }
+        
+        .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 64px; }
+        .hero-content { max-width: 700px; }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; line-height: 1.1; margin-bottom: 24px; }
+        .hero h1 span { color: var(--accent); }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 32px; max-width: 540px; }
+        .hero-links { display: flex; gap: 16px; flex-wrap: wrap; }
+        
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.2s; }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: var(--accent-hover); }
+        .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--text-muted); }
+        
+        section { padding: 100px 0; }
+        .section-title { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 16px; }
+        .section-heading { font-size: 2rem; font-weight: 600; margin-bottom: 48px; }
+        
+        /* Timeline */
+        .timeline { position: relative; padding-left: 32px; }
+        .timeline::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+        .timeline-item { position: relative; padding-bottom: 48px; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-item::before { content: ''; position: absolute; left: -32px; top: 6px; width: 16px; height: 16px; background: var(--bg); border: 2px solid var(--border); border-radius: 50%; transition: all 0.3s; }
+        .timeline-item:hover::before { border-color: var(--accent); box-shadow: 0 0 16px var(--accent); }
+        .timeline-date { font-size: 0.85rem; color: var(--accent); margin-bottom: 8px; }
+        .timeline-company { font-size: 1.25rem; font-weight: 600; margin-bottom: 4px; }
+        .timeline-role { color: var(--text-muted); margin-bottom: 12px; }
+        .timeline-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+        
+        /* Projects */
+        .projects-grid { display: grid; gap: 24px; }
+        .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; transition: border-color 0.2s, transform 0.2s; }
+        .project-card:hover { border-color: var(--text-muted); transform: translateY(-4px); }
+        .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+        .project-title { font-size: 1.4rem; font-weight: 600; }
+        .project-links { display: flex; gap: 12px; }
+        .project-links a { color: var(--text-muted); transition: color 0.2s; }
+        .project-links a:hover { color: var(--text); }
+        .project-desc { color: var(--text-muted); margin-bottom: 20px; line-height: 1.7; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { background: rgba(59, 130, 246, 0.1); color: var(--accent); padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 500; }
+        
+        /* Skills */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .skill-category h3 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; }
+        .skill-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-item { background: var(--surface); border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; font-size: 0.85rem; color: var(--text-muted); }
+        
+        /* Contact */
+        .contact-content { text-align: center; max-width: 500px; margin: 0 auto; }
+        .contact-content p { color: var(--text-muted); margin-bottom: 32px; font-size: 1.1rem; }
+        .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        
+        footer { padding: 32px 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.85rem; }
+        
+        /* Carousel */
+        .carousel { position: relative; width: 100%; margin-bottom: 16px; }
+        .carousel-main img { width: 100%; border-radius: 8px; display: none; }
+        .carousel-main img.active { display: block; }
+        .carousel-btns { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); padding: 0 8px; box-sizing: border-box; }
+        .carousel-btns button { background: rgba(0,0,0,0.5); color: #fff; border: none; padding: 8px 12px; cursor: pointer; border-radius: 4px; }
+        .carousel-btns button:hover { background: var(--accent); }
+        .carousel-thumbs { display: flex; gap: 8px; margin-top: 8px; justify-content: center; }
+        .carousel-thumbs img { width: 80px; height: 50px; object-fit: cover; border-radius: 4px; cursor: pointer; opacity: 0.5; border: 2px solid transparent; transition: all 0.2s; }
+        .carousel-thumbs img.active { opacity: 1; border-color: var(--accent); }
 
-			body {
-				font-family: Arial, sans-serif;
-				background-color: #222;
-				color: #fff;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				min-height: 100vh;
-			}
+        @media (max-width: 768px) { .nav-links { display: none; } }
 
-			.container {
-				text-align: center;
-			}
+        .none {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <script>
+    const c = document.getElementById('matrix'), ctx = c.getContext('2d');
+    c.width = window.innerWidth; c.height = window.innerHeight;
+    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
+    const cols = Math.floor(c.width / 20), drops = Array(cols).fill(1);
+    let speed = 33;
+    function draw() {
+        ctx.fillStyle = 'rgba(10, 10, 10, 0.05)'; ctx.fillRect(0, 0, c.width, c.height);
+        ctx.fillStyle = '#3b82f6'; ctx.font = '15px monospace';
+        drops.forEach((y, i) => {
+            ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * 20, y * 20);
+            if (y * 20 > c.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        });
+        if (speed < 100) speed += 0.5;
+        setTimeout(draw, speed);
+    }
+    draw();
+    window.addEventListener('resize', () => { c.width = window.innerWidth; c.height = window.innerHeight; });
+    </script>
 
-			h1 {
-				font-size: 3rem;
-				margin-bottom: 1rem;
-			}
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">Shadi Jiha</a>
+            <div class="nav-links">
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#skills">Skills</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
 
-			p {
-				font-size: 1.2rem;
-				margin-bottom: 2rem;
-			}
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Software Engineer building features for <span>distributed systems</span> <span class="none">at scale</span></h1>
+                <p>SDE at AWS working on MemoryDB team — a Redis-compatible in-memory database serving 3000+ GB/s throughput. Passionate about low-latency, performance systems.</p>
+                <div class="hero-links">
+                    <a href="#experience" class="btn btn-primary">View Experience</a>
+                    <a href="assets/files/CV.pdf" class="btn btn-secondary" target="_blank">Resume</a>
+                    <a href="https://github.com/shadijiha" class="btn btn-secondary" target="_blank">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-			.logo {
-				width: 150px;
-				height: 150px;
-				margin-bottom: 2rem;
-			}
+    <section id="experience">
+        <div class="container">
+            <p class="section-title">Experience</p>
+            <h2 class="section-heading">Where I've Worked</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <p class="timeline-date">May 2024 — Present</p>
+                    <h3 class="timeline-company">Amazon Web Services</h3>
+                    <p class="timeline-role">Software Development Engineer</p>
+                    <p class="timeline-desc">Building features for AWS MemoryDB service — a Redis-compatible in-memory database with 99.999% availability.</p>
+                </div>
+                <div class="timeline-item">
+                    <p class="timeline-date">May — Sep 2023</p>
+                    <h3 class="timeline-company">Amazon Web Services</h3>
+                    <p class="timeline-role">Software Development Engineer Intern</p>
+                    <p class="timeline-desc">Developed a Rust Redis module for RDB file analysis with 98% memory allocation prediction accuracy. Worked with low-level FFI bindings and debugged memory issues in the ElastiCache/MemoryDB codebase.</p>
+                </div>
+                <div class="timeline-item">
+                    <p class="timeline-date">Sep — Dec 2022</p>
+                    <h3 class="timeline-company">Rio Tinto</h3>
+                    <p class="timeline-role">Software Engineer Intern</p>
+                    <p class="timeline-desc">Improved SQL query execution time by 25% and reduced memory usage by 13%. Built C# applications for database management and automated reporting systems.</p>
+                </div>
+                <div class="timeline-item">
+                    <p class="timeline-date">Sep 2020 — Apr 2021</p>
+                    <h3 class="timeline-company">Tap Medical</h3>
+                    <p class="timeline-role">Full-stack Software Engineer Intern</p>
+                    <p class="timeline-desc">Built admin dashboard with live chat, implemented 20+ features across the stack, and automated QA workflows increasing testing speed by 50%.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-			.btn {
-				display: inline-block;
-				padding: 1rem 2rem;
-				background-color: #777;
-				color: #fff;
-				font-size: 1.2rem;
-				text-decoration: none;
-				border-radius: 4px;
-				transition: background-color 0.3s ease;
-			}
+    <section id="projects">
+        <div class="container">
+            <p class="section-title">Projects</p>
+            <h2 class="section-heading">Featured Work</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Shado Engine</h3>
+                        <div class="project-links">
+                            <a href="https://github.com/shadijiha/shado-opengl-api" target="_blank" title="GitHub">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="carousel">
+                        <div class="carousel-main">
+                            <img src="https://raw.githubusercontent.com/shadijiha/shado-opengl-api/main/shado-editor/assets/screenshots/runtime.gif" alt="Shado Engine Runtime" class="active">
+                            <img src="https://github.com/shadijiha/shado-opengl-api/raw/main/shado-editor/assets/screenshots/code.jpg?raw=true" alt="Shado Engine Code">
+                            <div class="carousel-btns">
+                                <button>&#10094;</button>
+                                <button>&#10095;</button>
+                            </div>
+                        </div>
+                        <div class="carousel-thumbs">
+                            <img src="https://raw.githubusercontent.com/shadijiha/shado-opengl-api/main/shado-editor/assets/screenshots/runtime.gif" class="active">
+                            <img src="https://github.com/shadijiha/shado-opengl-api/raw/main/shado-editor/assets/screenshots/code.jpg?raw=true">
+                        </div>
+                    </div>
+                    <p class="project-desc">A full-featured 2D game engine with a Unity-like editor interface. Features include C# scripting support, scene management, sprite rendering, physics integration, and a complete entity-component system. Built from scratch using OpenGL for high-performance graphics rendering.</p>
+                    <div class="project-tags">
+                        <span class="tag">C++</span>
+                        <span class="tag">OpenGL</span>
+                        <span class="tag">C# Scripting</span>
+                        <span class="tag">ImGui</span>
+                        <span class="tag">Game Engine</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Shado Cloud</h3>
+                        <div class="project-links">
+                            <a href="https://github.com/shadijiha/shado-cloud" target="_blank" title="GitHub">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="carousel">
+                        <div class="carousel-main">
+                            <img src="assets/images/shado_cloud_1.png" alt="Shado Cloud" class="active">
+                            <img src="assets/images/shado_cloud_2.png" alt="Shado Cloud 2">
+                            <div class="carousel-btns">
+                                <button>&#10094;</button>
+                                <button>&#10095;</button>
+                            </div>
+                        </div>
+                        <div class="carousel-thumbs">
+                            <img src="assets/images/shado_cloud_1.png" class="active">
+                            <img src="assets/images/shado_cloud_2.png">
+                        </div>
+                    </div>
+                    <p class="project-desc">A Google Drive-like cloud storage platform for uploading, organizing, and accessing files from anywhere. Features secure file management, folder organization, file sharing capabilities, and a clean, intuitive user interface.</p>
+                    <div class="project-tags">
+                        <span class="tag">Full Stack</span>
+                        <span class="tag">Cloud Storage</span>
+                        <span class="tag">File Management</span>
+                        <span class="tag">REST API</span>
+                    </div>
+                </div>
+            <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Awaazo</h3>
+                        <div class="project-links">
+                            <a href="https://github.com/awaazo/awaazo" target="_blank" title="GitHub">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            </a>
+                            <a href="https://awaazo.vercel.app" target="_blank" title="Live Demo">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="carousel">
+                        <div class="carousel-main">
+                            <img src="assets/images/awazoo.png" alt="Awaazo" class="active">
+                            <div class="carousel-btns">
+                                <button>&#10094;</button>
+                                <button>&#10095;</button>
+                            </div>
+                        </div>
+                        <div class="carousel-thumbs">
+                            <img src="assets/images/awazoo.png" class="active">
+                        </div>
+                    </div>
+                    <p class="project-desc"><strong>Graduation Project (Team Member)</strong> — An AI-powered podcasting platform that transforms how users create and consume audio content. Key features include AI-generated podcasts from lecture notes with voice cloning, an interactive AI assistant familiar with episode content, live transcripts, personalized recommendations, and rich community engagement. <br><br><strong>My contributions:</strong> Built the social features including user account creation, authentication, database schema design and relations, friend system, and user interactions.</p>
+                    <div class="project-tags">
+                        <span class="tag">Next.js</span>
+                        <span class="tag">ASP.NET Core</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">OpenAI</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">LangChain</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-			.btn:hover {
-				background-color: #555;
-			}
-		</style>
-	</head>
+    <section id="skills">
+        <div class="container">
+            <p class="section-title">Skills</p>
+            <h2 class="section-heading">Technologies I Work With</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Languages</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">C++</span>
+                        <span class="skill-item">Rust</span>
+                        <span class="skill-item">C</span>
+                        <span class="skill-item">Java</span>
+                        <span class="skill-item">Python</span>
+                        <span class="skill-item">TypeScript</span>
+                        <span class="skill-item">C#</span>
+                        <span class="skill-item">SQL</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Systems & Concepts</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Distributed Systems</span>
+                        <span class="skill-item">High Availability</span>
+                        <span class="skill-item">Low Latency</span>
+                        <span class="skill-item">API Design</span>
+                        <span class="skill-item">Testing</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Tools & Cloud</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">AWS</span>
+                        <span class="skill-item">Redis</span>
+                        <span class="skill-item">MemoryDB</span>
+                        <span class="skill-item">Git</span>
+                        <span class="skill-item">Linux</span>
+                        <span class="skill-item">GDB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-	<body>
-		<div class="container">
-			<h1>Down for Maintenance 😔</h1>
-			<p>
-				We apologize for the inconvenience, but our website is currently
-				undergoing maintenance.
-			</p>
-			<a
-				href="mailto:shadosite@gmail.com?subject=Shadi website Contact"
-				class="btn"
-				>Contact Us</a
-			>
-		</div>
-	</body>
+    <section id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <p class="section-title">Contact</p>
+                <h2 class="section-heading">Get In Touch</h2>
+                <p>I'm always open to discussing new opportunities, interesting projects, or just having a chat about distributed systems.</p>
+                <div class="contact-links">
+                    <a href="#" class="btn btn-primary" onclick="this.href='mai'+'lto:'+'shado'+'site'+'@'+'gma'+'il.com'">Email Me</a>
+                    <a href="https://linkedin.com/in/shadi-jiha-0a5267196" class="btn btn-secondary" target="_blank">LinkedIn</a>
+                    <a href="https://github.com/shadijiha" class="btn btn-secondary" target="_blank">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© <span class="current_year"></span> Shadi Jiha. Built with care.</p>
+        </div>
+    </footer>
+    <script>
+    document.querySelectorAll('.carousel').forEach(carousel => {
+        const imgs = carousel.querySelectorAll('.carousel-main img');
+        const thumbs = carousel.querySelectorAll('.carousel-thumbs img');
+        let idx = 0;
+        const update = () => {
+            imgs.forEach((img, i) => img.classList.toggle('active', i === idx));
+            thumbs.forEach((img, i) => img.classList.toggle('active', i === idx));
+        };
+        carousel.querySelectorAll('.carousel-btns button').forEach((btn, i) => {
+            btn.onclick = () => { idx = (idx + (i === 0 ? -1 : 1) + imgs.length) % imgs.length; update(); };
+        });
+        thumbs.forEach((thumb, i) => { thumb.onclick = () => { idx = i; update(); }; });
+    });
+
+    document.querySelectorAll(".current_year").forEach(element => {
+        element.innerText = new Date().getFullYear();
+    });
+    </script>
+</body>
 </html>
