@@ -1,0 +1,505 @@
+:root {
+    --grey-100: #e4e9f0;
+    --grey-200: #cfd7e3;
+    --grey-300: #b5c0cd;
+    --grey-800: #3e4e63;
+    --grid-gap: 1px;
+    --day-label-size: 50px;
+}
+
+body {
+    font-family: var(--content-font-family, sans-serif);
+    font-weight: 100;
+}
+
+ol,
+li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.calendar-month {
+    position: relative;
+    background-color: var(--grey-200);
+    border: solid 1px var(--grey-200);
+}
+
+.calendar-month-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.calendar-month-header-selected-month {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.calendar-month-header-selectors {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80px;
+}
+
+.calendar-month-header-selectors>* {
+    cursor: pointer;
+}
+
+.day-of-week {
+    color: var(--grey-800);
+    font-size: 24px;
+    background-color: #fff;
+    padding-bottom: 5px;
+    padding-top: 10px;
+}
+
+.day-of-week,
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.day-of-week>* {
+    text-align: center;
+    /* padding-right: 5px; */
+}
+
+.days-grid {
+    height: 100%;
+    position: relative;
+    grid-column-gap: var(--grid-gap);
+    grid-row-gap: var(--grid-gap);
+    border-top: solid 1px var(--grey-200);
+}
+
+.calendar-day {
+    position: relative;
+    min-height: 200px;
+    font-size: 16px;
+    background-color: #fff;
+    color: var(--grey-800);
+    padding: 5px;
+}
+
+.calendar-day>span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 2px;
+    font-size: 22pt;
+    font-weight: bold;
+    line-height: 1;
+    width: var(--day-label-size);
+    height: var(--day-label-size);
+    background-color: var(--grey-800);
+    color: white;
+}
+
+/* Compact month label inside the badge for days outside the main month. */
+.badge-month {
+    font-size: 8pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.7;
+    margin-bottom: 2px;
+}
+
+.calendar-day .content {
+    text-align: center;
+    font-size: 30pt;
+    align-content: center;
+    align-items: center;
+}
+
+.selected-month {
+    width: 100%;
+    text-align: center;
+    font-size: 40pt;
+}
+
+.selected-month p {
+    width: 100%;
+    text-align: center;
+    font-size: 30pt;
+    margin: 0;
+    padding: 0;
+}
+
+/* Store name: elegant engraved serif for a luxury jewelry feel.
+   Font family/style/spacing are driven by the customization modal. */
+.store-name {
+    display: block;
+    font-family: var(--store-font-family, "Cinzel", "Playfair Display", Georgia, serif);
+    font-style: var(--store-font-style, normal);
+    letter-spacing: var(--store-letter-spacing, 4px);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--grey-800);
+}
+
+.calendar-day p {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar-settings {
+    padding: 15px;
+    background: white;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Buttons in the settings bar (open the modals). */
+.settings-btn {
+    font: inherit;
+    font-size: 12pt;
+    padding: 8px 16px;
+    border: 1px solid var(--grey-300);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--grey-800);
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.settings-btn:hover {
+    background: var(--grey-100);
+    border-color: var(--grey-800);
+}
+
+.settings-btn.danger {
+    color: #a12020;
+    border-color: #e0b4b4;
+}
+
+.settings-btn.danger:hover {
+    background: #fbeaea;
+    border-color: #a12020;
+}
+
+/* Searchable custom-font picker */
+.font-search {
+    margin-top: 12px;
+}
+
+.font-search-row {
+    display: flex;
+    gap: 8px;
+}
+
+.font-search-input {
+    flex: 1;
+    font: inherit;
+    font-size: 12pt;
+    padding: 8px 12px;
+    border: 1px solid var(--grey-300);
+    border-radius: 6px;
+}
+
+.font-list {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid var(--grey-200);
+    border-radius: 6px;
+}
+
+.font-list-item {
+    padding: 8px 12px;
+    font-size: 15pt;
+    cursor: pointer;
+    border-bottom: 1px solid var(--grey-100);
+}
+
+.font-list-item:hover {
+    background: var(--grey-100);
+}
+
+.font-list-item.selected {
+    background: var(--grey-100);
+    outline: 2px solid var(--grey-800);
+    outline-offset: -2px;
+}
+
+.font-list-empty {
+    padding: 12px;
+    font-size: 10pt;
+    color: var(--grey-300);
+}
+
+/* ------------------------------------------------------------------ */
+/* Modal system                                                        */
+/* ------------------------------------------------------------------ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(20, 26, 36, 0.55);
+}
+
+.modal-overlay[hidden] {
+    display: none;
+}
+
+.modal {
+    position: relative;
+    width: min(560px, 100%);
+    max-height: 85vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px 32px;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+}
+
+.modal h2 {
+    margin: 0 0 18px;
+    font-family: "Cinzel", Georgia, serif;
+    font-size: 20pt;
+    font-weight: 600;
+    color: var(--grey-800);
+}
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    border: none;
+    background: none;
+    font-size: 24pt;
+    line-height: 1;
+    color: var(--grey-300);
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: var(--grey-800);
+}
+
+/* Print instructions */
+.print-steps {
+    margin: 0;
+    padding-left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 13pt;
+    line-height: 1.4;
+    color: var(--grey-800);
+}
+
+.print-steps kbd {
+    font-family: monospace;
+    font-size: 11pt;
+    padding: 2px 7px;
+    border: 1px solid var(--grey-300);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    background: var(--grey-100);
+}
+
+/* Customization modal */
+.customize-section {
+    margin-bottom: 24px;
+}
+
+.customize-section:last-child {
+    margin-bottom: 0;
+}
+
+.customize-section h3 {
+    margin: 0 0 12px;
+    font-size: 12pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--grey-800);
+}
+
+.font-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.font-option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 12px 16px;
+    border: 2px solid var(--grey-200);
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    text-align: left;
+}
+
+.font-option:hover {
+    border-color: var(--grey-300);
+}
+
+.font-option.selected {
+    border-color: var(--grey-800);
+    background: var(--grey-100);
+}
+
+.font-sample {
+    font-size: 22pt;
+    font-weight: 600;
+    color: var(--grey-800);
+}
+
+.content-sample {
+    font-size: 15pt;
+    font-weight: 400;
+}
+
+.option-label {
+    font-size: 10pt;
+    color: var(--grey-300);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.palette-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.palette-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px;
+    border: 2px solid var(--grey-200);
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.palette-option:hover {
+    border-color: var(--grey-300);
+}
+
+.palette-option.selected {
+    border-color: var(--grey-800);
+    background: var(--grey-100);
+}
+
+.swatches {
+    display: flex;
+}
+
+.swatch {
+    width: 26px;
+    height: 26px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.swatch:first-child {
+    border-radius: 6px 0 0 6px;
+}
+
+.swatch:last-child {
+    border-radius: 0 6px 6px 0;
+}
+
+/* Custom palette editor */
+.custom-palette {
+    margin-top: 14px;
+    padding: 14px 16px;
+    border: 2px solid var(--grey-200);
+    border-radius: 8px;
+}
+
+.custom-palette.selected {
+    border-color: var(--grey-800);
+    background: var(--grey-100);
+}
+
+.color-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.color-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--grey-800);
+    cursor: pointer;
+}
+
+.color-input input[type="color"] {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--grey-300);
+    border-radius: 8px;
+    background: none;
+    cursor: pointer;
+}
+
+/* Spillover days (outside the selected data range): same layout, but the day
+   badge is a lighter grey and the cell gets a subtle grey tint so it reads as
+   inactive without leaving the theme. */
+.calendar-day.out-of-range {
+    background-color: var(--grey-100);
+}
+
+.calendar-day.out-of-range>span {
+    background-color: var(--grey-300);
+}
+
+/* Spillover days follow the store's regular hours. Show that automatically
+   when no specific hours have been entered. It is a CSS placeholder, so it is
+   never saved as user content and disappears the moment real hours are typed
+   or the day moves into the selected range. */
+.calendar-day.out-of-range .content:empty::before {
+    content: "Heures régulières";
+    color: var(--grey-800);
+    font-size: 13pt;
+    font-style: italic;
+}
+
+@media print {
+    .no_print {
+        display:none !important;
+    }
+
+    /* Hide empty cells on print, but keep the "Heures régulières" placeholder
+       on spillover days. */
+    .calendar-day:not(.out-of-range) p:empty {
+        display: none;
+    }
+}
